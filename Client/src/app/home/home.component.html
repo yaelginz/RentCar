@@ -1,0 +1,161 @@
+<div class="row text-center">
+
+  <div class="well well-sm text-center">
+
+    <button type="button" class="btn btn-primary custom-margin" (click)="addUserModal.show()">רישום משתמש</button>
+
+    <button type="button" class="btn btn-success custom-margin" (click)="loginFormModal.show()">משתמש קיים</button>
+
+    <button type="button" class="btn btn-info custom-margin" (click)="loginAsGuest()">המשך כאורח</button>
+    <button type="button" class="btn btn-success custom-margin" [routerLink]="['/beintouch']">צור קשר</button>
+
+
+  </div>
+
+  <div style="margin-bottom: auto">
+    <h4>השכרת רכב - יעל גינזבורג</h4>
+    <img src="../../assets/images/logo.jpg">
+    <p>החברה הוקמה בשנת 1991
+      <br/> ניתן לבצע הזמנות דרך האתר
+      <!-- <img src=""> -->
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+
+      <br/>
+      <br/>
+
+      <br/>
+      <br/>
+      <br/>
+
+      <br/>
+    </p>
+  </div>
+</div>
+
+
+
+
+<div bsModal #loginFormModal="bs-modal" [config]="{backdrop: 'static'}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-bs">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 id="dialog-sizes-name1" class="modal-title">בחר משתמש</h4>
+      </div>
+      <div class="modal-body">
+        <form #loginForm="ngForm">
+          <div class="form-group">
+            <label for="email">בחר סוג משתמש:</label>
+            <select name="userType" class="form-control" required [(ngModel)]="userForm.userType">
+              <option *ngFor="let value of userType">{{value}}</option>
+            </select>
+          </div>
+
+          <div *ngIf="userForm.userType !== 'אורח' && userForm.userType !== ''">
+            <div class="form-group">
+              <label for="pwd">שם משתמש:</label>
+              <input type="userName" class="form-control" name="userName" id="pwd" [(ngModel)]="userForm.userName" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pwd">סיסמה:</label>
+              <input type="password" class="form-control" name="password" id="pwd" [(ngModel)]="userForm.password" required>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="alert alert-danger" *ngIf="showErrorMessage">
+            <strong>שגיאה!</strong> פרטי זיהוי אינם תקינים נסה שוב
+          </div>
+
+          <div class="alert alert-success" *ngIf="showSuccessMessage">
+            <strong>זיהוי הצליח!</strong> פרטי זיהוי תקינים
+            <br>
+            <p>הנך מועבר</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-info pull-left" [disabled]="loginForm.invalid" (click)="loginUser(loginForm.value)">בחר</button>
+
+        <button type="submit" class="btn btn-default pull-right" (click)="loginFormModal.hide()">סגור</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #addUserModal="bs-modal" [config]="{backdrop: 'static'}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-bs">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideModal(); addUserModal.hide()" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">הוספת משתמש </h4>
+      </div>
+      <div class="modal-body">
+        <form #addUserModalForm="ngForm">
+          <div class="form-group">
+            <label for="email">בחר סוג משתמש:</label>
+            <select name="userType" class="form-control" required [(ngModel)]="userTypeChoose" required>
+              <option *ngFor="let value of userType">{{value}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="usr">שם מלא*</label>
+            <input type="text" class="form-control" id="usr" name="FullName" required [(ngModel)]="updateuser.FullName">
+          </div>
+
+          <div class="form-group">
+            <label for="pwd">תעודת זהות*</label>
+            <input type="number" class="form-control" id="pwd" name="Id" required [(ngModel)]="updateuser.Id">
+          </div>
+
+          <div class="form-group">
+            <label for="usr2">שם משתמש*</label>
+            <input type="text" class="form-control" id="usr2" name="UserName" required [(ngModel)]="updateuser.UserName">
+          </div>
+
+          <div class="form-group">
+            <label for="usr4"> תאריך לידה* </label>
+            <input type="date" class="form-control" id="usr4" name="BirthDate" required [(ngModel)]="updateuser.BirthDate">
+          </div>
+
+
+          <div class="form-group">
+            <label for="usr5">מין*</label>
+            <select [(ngModel)]="updateuser.Gender" id="ll" name="Gender">
+              <option>
+                male
+              </option>
+
+              <option>
+                female
+              </option>
+            </select>
+
+            <br/>
+            <label for="usr8">אימייל*</label>
+            <input type="text" class="form-control" id="usr8" name="Email" required [(ngModel)]="updateuser.Email">
+          </div>
+
+          <div class="form-group">
+            <label for="usr4">בחר תמונה</label>
+            <input type="file" class="form-control" id="usr4" name="Image" accept="image/x-png,image/gif,image/jpeg" (change)="userPhotoChange($event)"
+              [(ngModel)]="updateuser.Image">
+          </div>
+
+          <label for="usr9">ססמא*</label>
+          <input type="text" class="form-control" id="usr9" name="Password" required [(ngModel)]="updateuser.Password">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="addUserModalForm.invalid" (click)="newuser(); addUserModal.hide()">להוספת משתמש במערכת לחץ כאן</button>
+
+      </div>
+    </div>
+  </div>
+</div>

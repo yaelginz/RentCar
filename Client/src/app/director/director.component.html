@@ -1,0 +1,878 @@
+<!-- Filter button -->
+
+
+<div class="row">
+  <button type="button" class="btn btn-default" (click)="cartype()"> לעידכון סוגי רכבים </button>
+  <button type="button" class="btn btn-default" (click)="car()">לעידכון רכבים </button>
+  <button type="button" class="btn btn-default" (click)="users()">לעידכון משתמשי מערכת </button>
+  <button type="button" class="btn btn-default" (click)="rents()">לעידכון הזמנות </button>
+  <button type="button"  class="btn btn-success custom-margin"  [routerLink]="['/HomePage']">חזור</button>
+</div>
+
+<br/>
+
+
+
+<div *ngIf="b10">
+  <button type="button" class="btn btn-default" (click)="new()" data-toggle="modal" data-target="#myModal20">הוסף השכרה חדשה </button>
+
+  <div class="modal fade" id="myModal20" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">הוספת רשומת השכרה </h4>
+        </div>
+        <div class="modal-body">
+
+          <form #addRentModalForm="ngForm">
+
+            <div class="form-group">
+              <label for="usr">מספר רישוי*</label>
+              <select class="selectpicker" [(ngModel)]="updateRent.CarId" name="CarId" required (click)="caridd()">
+                <option [value]="i" [selected]="updateRent.CarId == i" *ngFor="let i of rs2">{{i}}</option>
+              </select>
+              <!-- <input type="number" class="form-control" id="usr" [(ngModel)]="updateRent.CarId"> -->
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label for="pwd"> תעודת זהות משתמש מזמין*</label>
+              <!-- <input type="number" class="form-control" id="pwd" [(ngModel)]="updateRent.UserId"> -->
+              <select class="selectpicker" [(ngModel)]="updateRent.UserId" name="UserId" required (click)="userid()">
+                <option [value]="i" [selected]="updateRent.UserId == i" *ngFor="let i of rs1">{{i}}</option>
+              </select>
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="usr2">תאריך תחילת השכרה*</label>
+              <input type="date" class="form-control" id="usr2" name="LocationStartDay" required [(ngModel)]="updateRent.LocationStartDay">
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label for="usr4"> תאריך סיום השכרה* </label>
+              <input type="date" class="form-control" id="usr4" name="LocationEndDate" required [(ngModel)]="updateRent.LocationEndDate">
+            </div>
+
+            <div class="form-group">
+              <label for="usr5"> תאריך החזרה בפועל* </label>
+              <input type="date" class="form-control" id="usr5" name="DateCarReturned" [(ngModel)]="updateRent.DateCarReturned">
+            </div>
+
+
+
+
+          </form>
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="addRentModalForm.invalid" (click)="newRent1()">להוספת רשומת השכרה במכרת לחץ כאן</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="b8">
+  <button type="button" class="btn btn-default" (click)="new()" data-toggle="modal" data-target="#myModal12">הוסף משתמש חדש </button>
+  <div class="modal fade" id="myModal12" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">הוספת משתמש </h4>
+        </div>
+        <div class="modal-body">
+          <form #addUserModalForm="ngForm">
+
+            <div class="form-group">
+              <label for="email">בחר סוג משתמש:</label>
+              <select name="userType" class="form-control" required [(ngModel)]="userTypeChoose" required>
+                <option *ngFor="let value of userType">{{value}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="usr">שם מלא*</label>
+              <input type="text" class="form-control" id="usr" name="FullName" required [(ngModel)]="updateuser.FullName">
+            </div>
+
+            <div class="form-group">
+              <label for="pwd">תעודת זהות*</label>
+              <input type="number" class="form-control" id="pwd" name="Id" required [(ngModel)]="updateuser.Id">
+            </div>
+
+            <div class="form-group">
+              <label for="usr2">שם משתמש*</label>
+              <input type="text" class="form-control" id="usr2" name="UserName" required [(ngModel)]="updateuser.UserName">
+            </div>
+
+            <div class="form-group">
+              <label for="usr4"> תאריך לידה* </label>
+              <input type="date" class="form-control" id="usr4" name="BirthDate" required [(ngModel)]="updateuser.BirthDate">
+            </div>
+
+
+            <div class="form-group">
+              <label for="usr5">מין*</label>
+              <select [(ngModel)]="updateuser.Gender" id="ll" name="Gender">
+                <option>
+                  male
+                </option>
+
+                <option>
+                  female
+                </option>
+              </select>
+
+              <br/>
+              <label for="usr8">אימייל*</label>
+              <input type="text" class="form-control" id="usr8" name="Email" required [(ngModel)]="updateuser.Email">
+            </div>
+
+            <div class="form-group">
+              <label for="usr4">בחר תמונה</label>
+              <input type="file" class="form-control" id="usr4" name="Image" accept="image/x-png,image/gif,image/jpeg" (change)="userPhotoChange($event)"
+                [(ngModel)]="updateuser.Image">
+            </div>
+
+            <label for="usr9">ססמא*</label>
+            <input type="text" class="form-control" id="usr9" name="Password" required [(ngModel)]="updateuser.Password">
+
+          </form>
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="addUserModalForm.invalid" (click)="newuser()">להוספת משתמש במערכת לחץ כאן</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="b7">
+
+  <button type="button" class="btn btn-default" (click)="new()" data-toggle="modal" data-target="#addNewCarModal">הוסף רכב חדש </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addNewCarModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"> הוספת רכב </h4>
+        </div>
+        <div class="modal-body">
+          <form #addCarForm="ngForm">
+
+            <div class="form-group">
+              <label for="usr">מספר רישוי*</label>
+              <input type="number" class="form-control" id="usr" name="Id" [(ngModel)]="updatCar.Id" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pwd">סוג רכב*</label>
+              <select class="form-control" [(ngModel)]="updatCar.Type" name="Type" (click)="Type3()" required>
+                <option [value]="i" [selected]="updatCar.Type == i" *ngFor="let i of rs">{{i}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>קילומטרג'*</label>
+              <input type="number" class="form-control" min="1" max="100000" name="CurrentKilometer" [(ngModel)]="updatCar.CurrentKilometer"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="usr4"> מיקום מדויק* </label>
+              <select class="form-control" [(ngModel)]="updatCar.BranchExactLocation" name="BranchExactLocation" id="usr4" required>
+                <option>100</option>
+                <option>200</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="usr5">תקין</label>
+              <label class="radio-inline">
+                <input type="radio" name="IsProper" [value]="true" [(ngModel)]="updatCar.IsProper">כן
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="IsProper" [value]="false" [(ngModel)]="updatCar.IsProper">לא
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="usr6">זמין</label>
+              <label class="radio-inline">
+                <input type="radio" name="IsAvailable" [value]="true" [(ngModel)]="updatCar.IsAvailable">כן
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="IsAvailable" [value]="false" [(ngModel)]="updatCar.IsAvailable">לא
+              </label>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="addCarForm.invalid" (click)="newcar()">להוספת רכב במערכת לחץ כאן</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="b6">
+
+  <button type="button" class="btn btn-default" (click)="new()" data-toggle="modal" data-target="#myModal1">הוסף סוג רכב חדש </button>
+
+  <table>
+    <tr>
+      <th> חברה יצרנית</th>
+      <th>סוג רכב</th>
+      <th>שנת ייצור</th>
+      <th>אוטומט</th>
+      <th>עלות יומית</th>
+      <th>עלות יום איחור</th>
+      <th>תמונה</th>
+      <th>
+        עדכן/ מחק
+      </th>
+
+    </tr>
+    <tr *ngFor="let i of result1">
+      <td>
+        {{i.Type}}
+      </td>
+      <td>
+        {{i.Manifacturer}}
+      </td>
+
+
+
+      <td>
+        {{i.year}}
+      </td>
+
+      <td *ngIf="i.automat==true">
+        כן
+
+      </td>
+
+      <td *ngIf="i.automat==false">
+        לא
+
+      </td>
+
+      <td>
+        {{i.DailyCost}} ש"ח
+      </td>
+
+      <td>
+        {{i.DelayCost}} ש"ח
+      </td>
+      <td>
+
+
+        <img [src]="i.image" style="width:100px;">
+      </td>
+      <td>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" (click)="selected(i)">עדכן</button>
+        <br/>
+        <button type="button" class="btn btn-default" (click)="delete(i)">מחק </button>
+        <br/>
+
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+
+<div *ngIf="b7">
+  <table>
+    <tr>
+      <th> מספר רישוי</th>
+      <th>סוג רכב</th>
+      <th>קילומטראג נוכחי</th>
+      <th>תקין</th>
+      <th>זמין</th>
+      <th>מיקום מדויק של סניף</th>
+
+      <th>
+        עדכן/ מחק
+      </th>
+
+    </tr>
+    <tr *ngFor="let i of result2">
+      <td>
+        {{i.Id}}
+      </td>
+      <td>
+        {{i.Type}}
+      </td>
+
+
+
+      <td>
+        {{i.CurrentKilometer}}
+      </td>
+
+      <td *ngIf="i.IsProper==true">
+        כן
+
+      </td>
+
+      <td *ngIf="i.IsProper==false">
+        לא
+
+      </td>
+      <td *ngIf="i.IsAvailable==true">
+        כן
+
+      </td>
+
+      <td *ngIf="i.IsAvailable==false">
+        לא
+
+      </td>
+
+      <td>
+        {{i.BranchExactLocation}}
+      </td>
+
+
+      <td>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#editCarModal" (click)="selected2(i)">עדכן</button>
+        <br/>
+        <button type="button" class="btn btn-default" (click)="deletecar(i)">מחק </button>
+        <br/>
+
+
+
+
+      </td>
+    </tr>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editCarModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">עידכון רכב</h4>
+        </div>
+        <div class="modal-body">
+
+          <form #updateCarForm="ngForm">
+            <div class="form-group">
+              <label for="usr">מספר רישוי</label>
+              <input type="number" class="form-control" id="usr" [disabled]="true" name="Id" [(ngModel)]="updatCar.Id">
+            </div>
+
+            <div class="form-group">
+              <label for="pwd">סוג רכב</label>
+              <select class="form-control" [(ngModel)]="updatCar.Type" name="Type" (click)="Type3()" required>
+                <option [value]="i" [selected]="updatCar.Type == i" *ngFor="let i of rs">{{i}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="usr2"> קילומטראג'</label>
+              <input type="number" class="form-control" id="usr2" min="1" max="100000" name="CurrentKilometer" [(ngModel)]="updatCar.CurrentKilometer"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="usr4">מיקום מדויק בסניף</label>
+              <select [(ngModel)]="updatCar.BranchExactLocation" id="usr4" name="CurrentKilometer" required>
+                <option>100</option>
+                <option>200</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="usr5">תקין</label>
+
+              <label class="radio-inline">
+                <input type="radio" name="IsProper" [value]="true" [(ngModel)]="updatCar.IsProper">כן
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="IsProper" [value]="false" [(ngModel)]="updatCar.IsProper">לא
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="usr6">זמין</label>
+
+              <label class="radio-inline">
+                <input type="radio" name="IsAvailable" [value]="true" [(ngModel)]="updatCar.IsAvailable">כן
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="IsAvailable" [value]="false" [(ngModel)]="updatCar.IsAvailable">לא
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="updateCarForm.invalid" (click)="updatecar()">לעידכון במערכת לחץ כאן</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div *ngIf="b8">
+  <table>
+    <tr>
+      <th> שם מלא</th>
+      <th>תעודת זהות</th>
+      <th>שם משתמש</th>
+      <th>תאריך לידה</th>
+      <th>מין</th>
+      <th>אימייל</th>
+      <th>ססמא</th>
+
+      <th>
+        עדכן/ מחק
+      </th>
+
+
+    </tr>
+    <tr *ngFor="let i of result3">
+      <td>
+        {{i.FullName}}
+      </td>
+      <td>
+        {{i.Id}}
+      </td>
+
+
+
+      <td>
+        {{i.UserName}}
+      </td>
+
+
+      <td>
+        {{i.BirthDate | date: 'shortDate'}}
+      </td>
+
+      <td>
+        {{i.Gender}}
+      </td>
+
+      <td>
+        {{i.Email}}
+      </td>
+      <td>
+        {{i.Password}}
+      </td>
+      <td>
+        <img [src]="i.Picture" style="width:100px;">
+      </td>
+      <td>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal10" (click)="selected3(i)">עדכן</button>
+        <br/>
+        <button type="button" class="btn btn-default" (click)="deleteuser(i)">מחק </button>
+        <br/>
+
+      
+
+
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="b10">
+  <table>
+    <tr>
+      <th> מספר רשומה </th>
+      <th>מספר רישוי</th>
+      <th>תעודת זהות משתמש מזמיו</th>
+      <th>תאריך תחילת השכרה</th>
+      <th>תאריך סוף השכרה</th>
+      <th>תאריך החזרה בפועל</th>
+
+
+
+      <th>
+        עדכן/ מחק
+      </th>
+
+    </tr>
+    <tr *ngFor="let i of result10">
+      <td>
+        {{i.Id}}
+      </td>
+      <td>
+        {{i.CarId}}
+      </td>
+
+
+
+      <td>
+        {{i.UserId}}
+      </td>
+
+      <td>
+        {{i.LocationStartDay | date: 'shortDate'}}
+      </td>
+
+      <td>
+        {{i.LocationEndDate | date: 'shortDate'}}
+      </td>
+
+
+
+      <td>
+        {{i.DateCarReturned | date: 'shortDate'}}
+      </td>
+
+
+      <td>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal50" (click)="selected4(i)">עדכן</button>
+        <br/>
+        <button type="button" class="btn btn-default" (click)="deleterent(i)">מחק </button>
+        <br/>
+
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> הוספת סוג רכב </h4>
+      </div>
+      <div class="modal-body">
+
+        <form #addCarTypeForm="ngForm">
+
+          <div class="form-group">
+            <label for="usr">סוג רכב*</label>
+            <input type="text" class="form-control" id="usr" name="Type" required [(ngModel)]="updateCarType.Type">
+          </div>
+          <div class="form-group">
+            <label for="pwd">יצרן*</label>
+            <input type="text" class="form-control" id="pwd" name="Manifacturer" required [(ngModel)]="updateCarType.Manifacturer">
+          </div>
+
+          <div class="form-group">
+            <label for="usr2"> עלות יומית*</label>
+            <input type="number" class="form-control" id="usr2" name="DailyCost" required min="1" max="2000" [(ngModel)]="updateCarType.DailyCost">
+          </div>
+
+
+          <div class="form-group">
+            <label for="usr3">עלות יום איחור*</label>
+            <input type="number" class="form-control" id="usr3" name="DelayCost" required min="1" max="2000" [(ngModel)]="updateCarType.DelayCost">
+          </div>
+
+          <div class="form-group">
+            <label for="usr4"> שנת ייצור
+              <span> (בין 2010-2018) *</span>
+            </label>
+            <!-- <input type="number"  class="form-control" id="usr4"  [(ngModel)]="updateCarType.year" >  -->
+
+            <br/>
+
+            <select [(ngModel)]="updateCarType.year" id="usr4" name="year" required>
+              <option>2010</option>
+              <option>2011</option>
+              <option>2012</option>
+              <option>2013</option>
+              <option>2014</option>
+              <option>2015</option>
+              <option>2016</option>
+              <option>2017</option>
+              <option>2018</option>
+            </select>
+
+          </div>
+
+          <div class="form-group">
+            <label for="usr5">אוטומט*</label>
+
+            <label class="radio-inline">
+              <input type="radio" name="type" [value]="true" [(ngModel)]="updateCarType.automat">כן
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="type" [value]="false" [(ngModel)]="updateCarType.automat">לא
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label for="usr4"> בחר תמונה </label>
+            <input type="file" (change)="newCarPhoto($event)">
+          </div>
+
+
+
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="addCarTypeForm.invalid" (click)="newcartype()">להוספת רכב במערכת לחץ כאן</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">עידכון סוג רכב</h4>
+      </div>
+      <div class="modal-body">
+
+        <form #updateTyprCarForm="ngForm">
+
+          <div class="form-group">
+            <label for="usr">סוג רכב</label>
+            <input type="text" class="form-control" id="usr" [disabled]="true" name="Type" [(ngModel)]="updateCarType.Type">
+          </div>
+          <div class="form-group">
+            <label for="pwd">יצרן</label>
+            <input type="text" class="form-control" id="pwd" name="Manifacturer" [(ngModel)]="updateCarType.Manifacturer" required>
+          </div>
+
+          <div class="form-group">
+            <label for="usr2"> עלות יומית</label>
+            <input type="number" class="form-control" id="usr2" name="DailyCost" min="1" max="2000" [(ngModel)]="updateCarType.DailyCost"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="usr3">עלות יום איחור</label>
+            <input type="text" class="form-control" id="usr3" name="DelayCost" min="1" max="2000" [(ngModel)]="updateCarType.DelayCost"
+              required>
+          </div>
+
+          <select [(ngModel)]="updateCarType.year" name="year" id="usr4" required>
+            <option>2010</option>
+            <option>2011</option>
+            <option>2012</option>
+            <option>2013</option>
+            <option>2014</option>
+            <option>2015</option>
+            <option>2016</option>
+            <option>2017</option>
+            <option>2018</option>
+          </select>
+
+          <div class="form-group">
+            <label for="usr5">אוטומט</label>
+            <div>
+
+              <input type="text" disabled="true" class="form-control" id="usr5" name="automat" [(ngModel)]="updateCarType.automat" required>
+            </div>
+            <select [(ngModel)]="updateCarType.automat" name="automat" (click)="Type1()">
+              <option *ngFor="let c of result4" [ngValue]="c">{{c}}</option>
+
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <label for="usr4"> בחר תמונה </label>
+            <input type="file" (change)="newCarPhoto($event)">
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="updateTyprCarForm.invalid" (click)="update()">לעידכון במערכת לחץ כאן</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal10" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">עידכון משתמש </h4>
+      </div>
+      <div class="modal-body">
+
+        <form #updateUSerModalForm="ngForm">
+          <div class="form-group">
+            <label for="usr">שם מלא*</label>
+            <input type="text" class="form-control" id="usr" name="FullName" required [(ngModel)]="updateuser.FullName">
+          </div>
+          <div class="form-group">
+            <label for="pwd">תעודת זהות*</label>
+            <input type="number" class="form-control" id="pwd" name="Id" required [(ngModel)]="updateuser.Id" [disabled]="true">
+          </div>
+
+          <div class="form-group">
+            <label for="usr2">שם משתמש*</label>
+            <input type="text" class="form-control" id="usr2" name="UserName" required [(ngModel)]="updateuser.UserName">
+          </div>
+
+          <div class="form-group">
+            <label for="usr4"> תאריך לידה* </label>
+            <input type="date" class="form-control" id="usr4" name="BirthDate" required [(ngModel)]="updateuser.BirthDate">
+          </div>
+
+
+          <div class="form-group">
+            <label for="usr5">מין*</label>
+            <div>
+
+              <select [(ngModel)]="updateuser.Gender" name="Gender" id="ll">
+                <option>
+                  male
+                </option>
+
+                <option>
+                  female
+                </option>
+              </select>
+              <!-- <input type="text" class="form-control" id="usr5" [(ngModel)]="updateuser.Gender">  -->
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="usr8">אימייל*</label>
+            <input type="text" class="form-control" id="usr8" name="Email" required [(ngModel)]="updateuser.Email">
+          </div>
+
+          <div class="form-group">
+            <label for="usr4">בחר תמונה</label>
+            <input type="file" class="form-control" id="usr4" name="Image" accept="image/x-png,image/gif,image/jpeg" (change)="userPhotoChange($event)">
+          </div>
+
+          <div class="form-group">
+            <label for="usr9">ססמא*</label>
+            <input type="text" class="form-control" id="usr9" name="Password" required [(ngModel)]="updateuser.Password">
+          </div>
+
+        </form>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="updateUSerModalForm.invalid" (click)="updateuserf()">לעידכון משתמש במערכת לחץ כאן</button>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal50" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">עידכון השכרה </h4>
+      </div>
+      <div class="modal-body">
+
+        <form #updateRentalModalForm="ngForm">
+
+          <div class="form-group">
+            <label for="usr">מספר רשומה*</label>
+            <input type="number" class="form-control" id="usr" name="Id" required [(ngModel)]="updateRent.Id" [disabled]="true">
+          </div>
+
+          <div class="form-group">
+            <label for="pwd">מספר רישוי רכב*</label>
+            <select class="selectpicker" [(ngModel)]="updateRent.CarId" name="CarId" required (click)="caridd()">
+              <option [value]="i" [selected]="updateRent.CarId == i" *ngFor="let i of rs2">{{i}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="usr2">תעודת זהות משתמש מזמין*</label>
+            <select class="selectpicker" [(ngModel)]="updateRent.UserId" name="UserId" required (click)="userid()">
+              <option [value]="i" [selected]="updateRent.UserId == i" *ngFor="let i of rs1">{{i}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="usr4"> תאריך תחילת השכרה* </label>
+            <input type="date" class="form-control" id="usr4" name="LocationStartDay" required [(ngModel)]="updateRent.LocationStartDay">
+          </div>
+
+
+          <div class="form-group">
+            <label for="usr5">תאריך סוף השכרה*</label>
+            <div>
+              <input type="date" class="form-control" id="usr5" name="LocationEndDate" required [(ngModel)]="updateRent.LocationEndDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="usr8">תאריך החזרה בפועל*</label>
+            <input type="date" class="form-control" id="usr8" name="DateCarReturned" [(ngModel)]="updateRent.DateCarReturned">
+          </div>
+        </form>
+
+      </div>
+
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="updateRentalModalForm.invalid" (click)="rentupdate()">לעידכון רשומת השכרה במערכת לחץ כאן</button>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

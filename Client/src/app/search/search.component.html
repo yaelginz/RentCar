@@ -1,0 +1,127 @@
+
+<button type="button"  class="btn btn-success custom-margin" *ngIf="currUser !== 'אורח'"  [routerLink]="['/rentlist']">צפיה בהזמנות קודמות</button>
+
+
+
+
+
+    <h5><b>
+        בחר רכב להשכרה
+    </b></h5> 
+    <form>
+    <div >
+        <label >
+          <input #true type="radio" name="search" value="true" [(ngModel)]="bool"   (change)="automat()" >אוטומט
+        </label>
+      </div>
+
+      <div>
+          <label >
+            <input  #false type="radio" name="search" value="false" [(ngModel)]="bool"  (change)="automat()">הילוכים
+          </label>
+        </div>
+    
+          <div>
+          <label >
+            <input #year type="radio"  name="search"  value="year" [(ngModel)]="bool2" (change)="yearavailble()" >שנת ייצור  
+
+           <div *ngIf="bool2" > 
+
+                  <select class="selectpicker"[(ngModel)]="test2" name="something" (change)="showyear()" >
+                                      <option [value]="i" [selected]="test2 == i" *ngFor="let i of result2" >{{i}}</option>
+                                                                        </select>
+                                  </div>
+                                       
+        </label>
+
+<br/>
+        <label >
+          <input #company type="radio"  name="search"  value="company" [(ngModel)]="bool4" (change)="companyavailable()" >ארץ מקור  
+
+         <div *ngIf="bool4" > 
+
+                <select class="selectpicker"[(ngModel)]="test3" name="other" (change)="showcompany()" >
+                                    <option [value]="i" [selected]="test3 == i" *ngFor="let i of result3" >{{i}}</option>
+                                                                      </select>
+                                </div>
+                                     
+      </label>
+<br/>
+      <label >
+        <input #type type="radio"  name="search"  value="type" [(ngModel)]="bool5" (change)="Typeavailable()" >סוג רכב  
+
+       <div *ngIf="bool5" > 
+
+              <select class="selectpicker"[(ngModel)]="test4" name="other" (change)="Type()" >
+                                  <option [value]="i" [selected]="test3 == i" *ngFor="let i of result4" >{{i}}</option>
+                                                                    </select>
+                              </div>
+                                   
+    </label>
+    <div >
+      <label >
+        <input  type="radio" name="search" value="date"  (change)="searchdate()">חיפוש לפי זמינות בתאריך היום
+
+   
+      </label>
+    </div>
+
+
+    <div>
+     <input  type="radio" name="search" value="contains" (change)="b()"><b>
+        חיפוש לפי טקסט חופשי 
+     </b>
+    
+       <input type="text" [(ngModel)]="test100" name="otherwhy" />
+       <input type="button" (click)= "contains()" value="בצע">
+      
+    </div>
+        </div> 
+
+
+      
+        
+  
+      <table>
+          <tr >
+            <th>סוג רכב</th>
+                    </tr>
+          
+
+          
+          <tr  *ngFor="let i of result" (click)="select(i,true)" [class.selected]="i == selectedRow">
+
+          
+             <td >{{i.Type}}</td>
+                             </tr>
+                             </table>
+          
+
+
+                 <div class="panel panel-default">
+                    <div class="panel-body">
+                      <table>
+                        <tr>
+                          <th>
+                            חיפושים קודמים
+                          </th>
+                          <td>
+                       {{test}}
+                          </td>
+                        </tr>
+
+                      </table>
+                   
+</div>
+                  </div>
+
+
+
+
+                  
+                  <button type="button" [disabled]="!disable" [routerLink]="['/commend']" class="btn btn-default"   >דף הבא</button>
+                  
+
+               
+                  <button type="button"  class="btn btn-success custom-margin"  [routerLink]="['/HomePage']">חזור לדף הבית</button>
+        

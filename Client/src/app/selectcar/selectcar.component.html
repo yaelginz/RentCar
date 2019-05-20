@@ -1,0 +1,224 @@
+<h2>
+
+
+  רכב שנבחר</h2>
+<div class="panel panel-default">
+
+  <div class="panel-body">
+      <!-- <form #userForm="ngForm" (ngSubmit)="onFormSubmit(userForm)"> -->
+      <table>
+        <tr>
+          <th> חברה יצרנית</th>
+          <td>{{CarSelected.Manifacturer}}</td>
+        </tr>
+
+
+        <tr>
+          <th>סוג רכב</th>
+          <td>{{CarSelected.Type}}</td>
+        </tr>
+
+        <tr>
+          <th>שנת ייצור</th>
+          <td>{{CarSelected.year}}</td>
+
+        </tr>
+        <tr>
+          <th>אוטומט</th>
+
+          <td *ngIf="CarSelected.automat==true">כן</td>
+          <td *ngIf="CarSelected.automat==false">לא</td>
+        </tr>
+        <tr>
+          <th>עלות יומית</th>
+          <td>{{CarSelected.DailyCost}} ש"ח</td>
+        </tr>
+        <tr>
+          <th>עלות יום איחור</th>
+          <td>{{CarSelected.DelayCost}} ש"ח</td>
+        </tr>
+  
+
+        <tr>
+
+
+          <th>
+            <!-- <button type="button"  class="btn btn-default" (click)="branchavailable()">בחר סניף </button> -->
+            בחר סניף*
+          </th>
+          <td>
+
+            <select class="selectpicker" [(ngModel)]="adress" name="other1"  (change)="change()">
+              <option [value]="i" [selected]="adress == i" *ngFor="let i of result2">{{i}}</option>
+            </select>
+
+          </td>
+        </tr>
+        <tr>
+          <th>
+      תאריך תחילת השכרה
+          </th>
+          <td>
+
+            <input name="date" [(ngModel)]="StartDate"  (change)="change()" [disabled]="true"> 
+          </td>
+        </tr>
+        <tr>
+          <th>
+            הכנס מספר ימי השכרה *
+            <span> (בין 0-50)</span> 
+          </th>
+          <td>
+            <!-- <input name="days" type="numner"[(ngModel)]="Days"> -->
+            <input name="days" type="number" min="1" max="20" [(ngModel)]="Days" (change)="change()">
+
+
+          </td>
+        </tr>
+        <!-- <button>Submit</button> -->
+        <!-- <button type="button" (click)="resetUserForm(userForm)">Reset</button> -->
+
+
+        <!-- <div>
+           
+            <p>Name valid: <b> </b></p>
+          </div> -->
+
+
+      </table>
+      <!-- </form> -->
+      <!-- <input type="submit" (click)="Date()" value="בדוק זמינות רכב"> -->
+      
+      <button type="button" [disabled]="!b5" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" (click)="Date()"> בדוק זמינות רכב</button>
+
+ 
+
+
+      <br/>
+      <br/>
+      <tr>
+        <td>
+          <img src="assets/images/{{CarSelected.Type}}.jpg" style="width:200px;">
+        </td>
+
+      </tr>
+
+
+
+
+
+
+      <!-- {{Days}} -->
+
+
+
+      <!-- <label>
+ 
+    <button type="button"  class="btn btn-default" (click)="branchavailable()">בחר סניף </button>
+  </label> -->
+
+
+      <!-- </div> -->
+      <br/>
+
+
+
+      <br/>
+      <label>
+
+      </label>
+      <br/>
+
+      <!-- <button type="button"  class="btn btn-default" (click)="Date()">בדוק זמינות רכב </button> -->
+      <br/>
+
+      <br/>
+
+        
+<!-- 
+<h3>בקרה חייב להכניס סניף מבוקש
+תאריך
+ימים
+ולידציה ערכים תקינים
+
+</h3>  -->
+
+
+      <div class="container">
+
+        <!-- Trigger the modal with a button -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" [routerLink]="['/search']">&times;</button>
+                <div *ngIf="b4">
+                    <h4 class="modal-title">פרטי הזמנתך</h4>
+
+                </div>
+
+                <div *ngIf="!b4">
+                    <h4 class="modal-title">רכב לא זמין, חזור לדף החיפוש
+                    </h4>
+
+                </div>
+              </div>
+              <div class="modal-body">
+
+                <div *ngIf="b">
+
+                  <table>
+                    <tr>
+                      <th> עלות הזמנתך </th>
+                      <td>{{Days*CarSelected.DailyCost}} ש"ח</td>
+                    </tr>
+                    <tr>
+                      <th> עלות עבור יום איחור </th>
+                      <td>{{CarSelected.DelayCost}} ש"ח</td>
+                    </tr>
+                    <tr>
+                      <th> כתובת לאיסוף רכב </th>
+                      <td>{{adress}} </td>
+                    </tr>
+
+                    <tr>
+                      <th> תאריך תחילת השכרה </th>
+                      <td>{{StartDate}} </td>
+                    </tr>
+                    <tr>
+                      <th> מספר ימי השכרה </th>
+                      <td>{{Days}} </td>
+                    </tr>
+                  </table>
+
+                </div>
+
+              </div>
+              <div class="modal-footer">
+ <div *ngIf="b4"> 
+
+
+                <button type="button" class="btn btn-default" (click)="booking()" data-dismiss="modal"  [routerLink]="['/search']" [disabled]="this.curUser === 'אורח'">לאישור הזמנה לחץ כאן </button>
+              </div>
+
+             <div *ngIf="!b4"> 
+
+
+               <button type="button" class="btn btn-default"  data-dismiss="modal"  [routerLink]="['/search']" >חזור לדף החיפוש </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+     

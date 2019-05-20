@@ -1,0 +1,49 @@
+
+
+
+<button type="button"  class="btn btn-success custom-margin" (click)="rentlist()">לצפיה בהזמנות קודמות לחץ כאן</button>
+<button type="button"  class="btn btn-success custom-margin"  [routerLink]="['/search']">חזור</button>
+
+<div *ngIf="b1">
+
+
+<table >
+    <tr>
+      <th> מספר רכב</th>
+      <th> מזמין תעודת זהות</th>
+      <th>תאריך תחילת השכרה</th>
+      <th>תאריך סיום השכרה</th>
+      <th>תאריך החזרה בפועל</th>
+    
+
+     
+
+
+    </tr>
+    <tr *ngFor="let i of result">
+      <td>
+        {{i.CarId}}
+      </td>
+      <td>
+        {{i.UserId}}
+      </td>
+
+
+
+      <td>
+        {{i.LocationStartDay | date: 'shortDate'}}
+      </td>
+
+
+      <td>
+        {{i.LocationEndDate | date: 'shortDate'}}
+      </td>
+
+      <td>
+        {{i.DateCarReturned | date: 'shortDate'}}
+      </td>
+      
+       </tr>
+  </table>
+</div>
+
